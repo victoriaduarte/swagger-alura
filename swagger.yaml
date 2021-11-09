@@ -17,44 +17,113 @@ externalDocs:
 servers: 
 - url: https://6096015d116f3f00174b29ba.mockapi.io/
   description: API de Teste
+  
 paths:
   /especialidades:
     get:
       summary: Recupera todas as especialidades
       responses:
         200:
-          description: Sucesso
+          description: Especialidades recuperadas com sucesso
           content:
             application/json:
               schema:
-                type: array
-                items: 
-                  type: object
-                  properties: 
-                    id: 
-                      type: integer
-                    descricao:
-                      type: string
+                $ref: "#/components/schemas/Especialidades"   
+                   
     post:
       summary: Cria nova especialidade
-      description: Através desse endpoint você pode criar novas especialidades
+      description: Nesse endpoint você pode criar novas especialidades
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                descricao:
-                  type: string
+              $ref: "#/components/schemas/Descricao" 
+
       responses:
         201:
-          description: Sucesso
+          description: Especialidade criada com sucesso
           content:
             application/json:
               schema:
-                type: object
-                  properties: 
-                    id: 
-                      type: integer
-                    descricao:
-                      type: string
+                $ref: "#/components/schemas/Especialidade"  
+
+  /especialidades/{id}:
+    parameters: # parametros para todos os verbos do endpoint
+    - name: id
+      in: path # valores possíveis: query, header, path ou cookie
+      schema:
+        type: integer
+      required: true
+    get:
+      summary: Recupera uma entidade pelo ID
+      responses:
+        200:
+          description: Especialidade recuperada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Especialidade"  
+
+        404:
+          description: Especialidade não encontrada
+          content:
+            application/json:
+              example: "Not Found"
+              
+    put:
+      summary: Atualiza uma entidade pelo ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Descricao" 
+
+      responses:
+        200:
+          description: Especialidade atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Especialidade"  
+
+        404:
+          description: Especialidade não encontrada
+          content:
+            application/json:
+              example: "Not Found"
+    
+    delete:
+      summary: Exclui uma entidade pelo ID
+      responses:
+        200:
+          description: Especialidade excluída com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Especialidade"  
+
+        404:
+          description: Especialidade não encontrada
+          content:
+            application/json:
+              example: "Not Found"
+              
+components: # definir schemas, responses, requestBody, etc
+  schemas:
+    Especialidade:
+      type: object
+      properties:
+        id: 
+          type: integer
+        descricao:
+          type: string 
+    Especialidades:
+      type: array
+      items:
+        $ref: "#/components/schemas/Especialidade"   
+    Descricao:
+      type: object
+      properties:
+        descricao:
+          type: string  
+        
