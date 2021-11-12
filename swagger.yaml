@@ -107,7 +107,8 @@ paths:
           content:
             application/json:
               example: "Not Found"
-              
+security:
+- auth: []              
 components: # definir schemas, responses, requestBody, etc
   schemas:
     Especialidade:
@@ -126,4 +127,8 @@ components: # definir schemas, responses, requestBody, etc
       properties:
         descricao:
           type: string  
-        
+  securitySchemes:
+    auth:
+      type: http
+      scheme: bearer 
+      bearerFormat: JWT
